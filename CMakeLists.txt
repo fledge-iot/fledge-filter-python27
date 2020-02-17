@@ -14,6 +14,14 @@ project(python27)
 
 set(CMAKE_CXX_FLAGS "-std=c++11 -O3")
 
+# Handling of Simple web server with compiler pre-processor macro RHEL_CENTOS_7
+EXECUTE_PROCESS( COMMAND grep -o ^NAME=.* /etc/os-release COMMAND cut -f2 -d\" COMMAND sed s/\"//g OUTPUT_VARIABLE os_name )
+EXECUTE_PROCESS( COMMAND grep -o ^VERSION_ID=.* /etc/os-release COMMAND cut -f2 -d\" COMMAND sed s/\"//g OUTPUT_VARIABLE os_version )
+
+if ( ( ${os_name} MATCHES "Red Hat" OR ${os_name} MATCHES "CentOS") AND ( ${os_version} MATCHES "7" ) )
+	add_compile_options(-D RHEL_CENTOS_7)
+endif()
+
 # Set plugin type (south, north, filter)
 set(PLUGIN_TYPE "filter")
 
