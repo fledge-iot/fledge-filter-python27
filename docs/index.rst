@@ -24,19 +24,20 @@ A general code syntax for the function that should be provided is;
 
 Each element that is processed has a number of attributes that may be accessed
 
-+----------------+---------------------------------------------------------------------------+
-| Attribute      | Description                                                               |
-+================+===========================================================================+
-| asset_code     | The name of the asset the reading data relates to.                        |
-+----------------+---------------------------------------------------------------------------+
-| timestamp      | The data and time Fledge first read this data                             |
-+----------------+---------------------------------------------------------------------------+
-| user_timestamp | The data and time the data for the data itself, this may differ from the  |
-|                | timestamp above                                                           |
-+----------------+---------------------------------------------------------------------------+
-| readings       | The set of readings for the asset, this is itself an object that contains |
-|                | a number of key/value pairs that are the data points for this reading.    |
-+----------------+---------------------------------------------------------------------------+
+.. list-table::
+    :widths: 20 50
+    :header-rows: 1
+
+    * - Attribute
+      - Description
+    * - asset_code
+      - The name of the asset the reading data relates to.
+    * - timestamp
+      - The data and time Fledge first read this data
+    * - user_timestamp
+      - The data and time the data for the data itself, this may differ from the timestamp above
+    * - readings
+      - The set of readings for the asset, this is itself an object that contains a number of key/value pairs that are the data points for this reading.
 
 In order to access an data point within the readings, for example one named *temperature*, it is a simple case of extracting the value of with *temperature* as its key.
 
