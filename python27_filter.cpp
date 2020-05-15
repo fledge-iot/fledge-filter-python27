@@ -112,15 +112,11 @@ PyObject* Python27Filter::createReadingsList(const vector<Reading *>& readings)
 		PyDict_SetItemString(readingObject, "asset_code", assetVal);
 
 		/**
-		 * Save id, uuid, timestamp and user_timestamp
+		 * Save id, timestamp and user_timestamp
 		 */
 		// Add reading id
 		PyObject* readingId = PyLong_FromUnsignedLong((*elem)->getId());
 		PyDict_SetItemString(readingObject, "id", readingId);
-
-		// Add reading uuid
-		PyObject* assetKey = PyString_FromString((*elem)->getUuid().c_str());
-		PyDict_SetItemString(readingObject, "uuid", assetKey);
 
 		// Add reading timestamp
 		PyObject* readingTs = PyLong_FromUnsignedLong((*elem)->getTimestamp());
@@ -136,7 +132,6 @@ PyObject* Python27Filter::createReadingsList(const vector<Reading *>& readings)
 		Py_CLEAR(newDataPoints);
 		Py_CLEAR(assetVal);
 		Py_CLEAR(readingId);
-		Py_CLEAR(assetKey);
 		Py_CLEAR(readingTs);
 		Py_CLEAR(readingUserTs);
 		Py_CLEAR(readingObject);
@@ -155,7 +150,6 @@ PyObject* Python27Filter::createReadingsList(const vector<Reading *>& readings)
  * Note:
  * new readings have:
  * - new timestamps
- * - new UUID
  */
 vector<Reading *>* Python27Filter::getFilteredReadings(PyObject* filteredData)
 {
@@ -245,7 +239,7 @@ vector<Reading *>* Python27Filter::getFilteredReadings(PyObject* filteredData)
 			}
 
 			/*
-			 * Set id, uuid, ts and user_ts of the original data
+			 * Set id, ts and user_ts of the original data
 			 */
 			// Get 'id' value: borrowed reference.
 			PyObject* id = PyDict_GetItemString(element, "id");
@@ -269,14 +263,6 @@ vector<Reading *>* Python27Filter::getFilteredReadings(PyObject* filteredData)
 			{
 				// Set user timestamp
 				newReading->setUserTimestamp(PyLong_AsUnsignedLong(uts));
-			}
-
-			// Get 'uuid' value: borrowed reference.
-			PyObject* uuid = PyDict_GetItemString(element, "uuid");
-			if (uuid && PyString_Check(uuid))
-			{
-				// Set uuid
-				newReading->setUuid(PyString_AsString(uuid));
 			}
 
 			// Remove temp objects
